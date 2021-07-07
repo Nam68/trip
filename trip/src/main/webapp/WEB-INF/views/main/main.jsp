@@ -42,7 +42,9 @@ function asideToggle() {
 </script>
 </head>
 <body>
-<div class="header"></div>
+<div class="header">
+	<div>관리자</div>
+</div>
 <div class="aside">
 	<div class="asideHideButton" onclick="asideToggle()">></div>
 </div>
