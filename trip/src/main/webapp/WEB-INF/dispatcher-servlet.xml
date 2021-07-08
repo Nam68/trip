@@ -12,12 +12,17 @@
 	
 	<!-- DAOs -->
 	<bean id="placeRegistDAO" class="travel.placeRegist.model.PlaceRegistDAOImple"></bean>
+	<bean id="tripUserDAO" class="travel.user.model.TripUserDAOImple"></bean>
 	
 	<!-- Services -->
 	<bean id="placeRegistService" class="travel.placeRegist.service.PlaceRegistServiceImple"></bean>
-	
+	<bean id="tripUserService" class="travel.user.service.TripUserServiceImple"></bean>
 	
 	<!-- views & apps -->
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+		<property name="contentType" value="application/json;charset=UTF-8"></property>
+	</bean>
+	
 	
 	
 	<!-- configs -->
@@ -27,6 +32,7 @@
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="10485760"></property> <!-- 최고용량 10MB -->
 	</bean>
+	
 	
 	<!-- mybatis -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">

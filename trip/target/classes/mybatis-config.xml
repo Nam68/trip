@@ -5,8 +5,10 @@
 <configuration>
   <typeAliases>
   	<typeAlias type="travel.placeRegist.model.PlaceRegistDTO" alias="placeRegist"/>
+  	<typeAlias type="travel.user.model.UserDTO" alias="user"/>
   </typeAliases>
   <mappers>
   	<mapper resource="sql/placeRegistSQL.xml" />
+  	<mapper resource="sql/tripUserSQL.xml" />
   </mappers>
 </configuration>
