@@ -13,10 +13,12 @@
 	<!-- DAOs -->
 	<bean id="placeRegistDAO" class="travel.placeRegist.model.PlaceRegistDAOImple"></bean>
 	<bean id="tripUserDAO" class="travel.user.model.TripUserDAOImple"></bean>
+	<bean id="cityPlaceDAO" class="travel.cityPlace.model.CityPlaceDAOImple"></bean>
 	
 	<!-- Services -->
 	<bean id="placeRegistService" class="travel.placeRegist.service.PlaceRegistServiceImple"></bean>
 	<bean id="tripUserService" class="travel.user.service.TripUserServiceImple"></bean>
+	<bean id="cityPlaceSerivce" class="travel.cityPlace.service.CityPlaceServiceImple"></bean>
 	
 	<!-- views & apps -->
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">

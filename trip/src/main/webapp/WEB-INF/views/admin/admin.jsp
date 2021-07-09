@@ -9,6 +9,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<style>
+.placeTableRow:hover {cursor: pointer; background-color: gray; }
+</style>
 </head>
 <body class="pt-5">
 
@@ -35,7 +38,10 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           	<c:forEach var="city" items="${cities }">
-            <li><a class="dropdown-item" href="#">${city.kname }</a></li>
+            <li>
+            	<a class="dropdown-item" onclick="document.citySelectForm.submit()">${city.kname }</a>
+            	<form name="citySelectForm" action="citySelected.do" method="post"><input type="hidden" name="ridx" value="${city.ridx }"></form>
+            </li>
             </c:forEach>
           </ul>
         </li>
@@ -65,21 +71,15 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr>
-			      <th scope="row">1</th>
-			      <td>Mark</td>
-			      <td>Otto</td>
+			  	<c:forEach var="place" items="${placeList }">
+			    <tr class="placeTableRow">
+			    <form name="placeSelect" action="placeSelected.do" method="post">
+			      <th scope="row">${place.pidx }<input type="hidden" name="pidx" value="${place.pidx }"></th>
+			      <td>${place.kname }</td>
+			      <td>${place.addr }</td>
+			    </form>
 			    </tr>
-			    <tr>
-			      <th scope="row">2</th>
-			      <td>Jacob</td>
-			      <td>Thornton</td>
-			    </tr>
-			    <tr>
-			      <th scope="row">3</th>
-			      <td>Larry the Bird</td>
-			      <td>@twitter</td>
-			    </tr>
+			    </c:forEach>
 			  </tbody>
 			  <tfoot>
 			  	<tr>
@@ -94,7 +94,7 @@
 					      <a class="page-link" href="#">2</a>
 					    </li>
 					    <li class="page-item"><a class="page-link" href="#">3</a></li>
-					    <li class="page-item">
+					    <li class="page-item"> 
 					      <a class="page-link" href="#">Next</a>
 					    </li>
 					  </ul>

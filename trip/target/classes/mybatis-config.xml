@@ -6,9 +6,11 @@
   <typeAliases>
   	<typeAlias type="travel.placeRegist.model.PlaceRegistDTO" alias="placeRegist"/>
   	<typeAlias type="travel.user.model.UserDTO" alias="user"/>
+  	<typeAlias type="travel.cityPlace.model.CityPlaceDTO" alias="cityPlace"/>
   </typeAliases>
   <mappers>
   	<mapper resource="sql/placeRegistSQL.xml" />
   	<mapper resource="sql/tripUserSQL.xml" />
+  	<mapper resource="sql/cityPlaceSQL.xml" />
   </mappers>
 </configuration>

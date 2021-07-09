@@ -131,7 +131,8 @@ function adminLoginResult() {
 	}
 }
 function adminPageMove() {
-	location.href='adminPage.do';
+	const form = document.adminPage;
+	form.submit();
 }
 </script>
 </head>
@@ -182,6 +183,7 @@ function adminPageMove() {
 	<div>Click Here</div>
 </div>
 <img class="mainImg" alt="main" src="http://www.myyk.co.kr/img/airplane.jpg">
-<img onclick="${sessionScope.userDTO.userid != 'admin'? 'adminLoginModalOn()':"location.href='adminPage.do'" }" class="adminIcon" alt="adminIcon" src="http://www.myyk.co.kr/img/png-clipart-computer-icons-gear-symbol-miscellaneous-cogwheel.png">
+<img onclick="${sessionScope.userDTO.userid != 'admin'? 'adminLoginModalOn()':'document.adminPage.submit()' }" class="adminIcon" alt="adminIcon" src="http://www.myyk.co.kr/img/png-clipart-computer-icons-gear-symbol-miscellaneous-cogwheel.png">
+<form name="adminPage" action="adminPage.do" method="post"></form>
 </body>
 </html>
