@@ -10,11 +10,85 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <style>
-.placeTableRow:hover {cursor: pointer; background-color: gray; }
+.sidebar {
+  position: fixed;
+  top: 0;
+  /* rtl:raw:
+  right: 0;
+  */
+  bottom: 0;
+  /* rtl:remove */
+  left: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding-top: .5rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
+}
+
+.sidebar .nav-link .feather {
+  margin-right: 4px;
+  color: #727272;
+}
+
+.sidebar .nav-link.active {
+  color: #2470dc;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+
+.side-nav-link{display:block;padding:.5rem 1rem;color:#0d6efd;text-decoration:none;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out}@media (prefers-reduced-motion:reduce){.nav-link{transition:none}}
+.side-nav-link{color: gray;}
+.side-nav-link:hover{cursor: pointer;}
+.side-active{color:#0d6efd;}
+
+.placeTableContent:hover{background-color: #CCC; cursor: pointer;}
 </style>
+<script>
+function placeEditor(pidx) {
+	const form = document.placeForm;
+	form.pidx.value = pidx;
+	form.submit();
+}
+function navBarTextColor(target) {
+	var links = $('.nav-link');
+	links.removeClass('active');
+	
+	const link = document.getElementById(target.id);
+	link.classList.add('active');
+}
+function sideBarTextColor(target) {
+	var links = $('.side-nav-link');
+	links.removeClass('side-active');
+	
+	const link = document.getElementById(target.id);
+	link.classList.add('side-active');
+}
+</script>
 </head>
 <body class="pt-5">
 
+<header>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="index.do">Travel Guide</a>
@@ -24,13 +98,13 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="#" id="navHome" onclick="navBarTextColor(this)">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Setting</a>
+          <a class="nav-link" href="#" id="navSetting" onclick="navBarTextColor(this)">Setting</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">City Manage</a>
+          <a class="nav-link" href="#" id="navManage" onclick="navBarTextColor(this)">City Manage</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -49,39 +123,66 @@
     </div>
   </div>
 </nav>
+</header>
+<section>
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="side-nav-link side-active" aria-current="page" href="#">
+              Dashboard
+            </a> 
+          </li> 
+          <li class="nav-item">
+            <a class="side-nav-link" id="sidePlaceList" onclick="sideBarTextColor(this)">
+              Place List
+            </a>
+          </li> 
+          <li class="nav-item">
+            <a class="side-nav-link" id="sidePlaceEditor" onclick="sideBarTextColor(this)">
+              Place Editor
+              <form name="placeEditorForm" action="placeEditor" method="post"></form>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="side-nav-link" id="sideCityEditor" onclick="sideBarTextColor(this)">
+              City Editor
+            </a>
+            
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-<div class="col col-lg-2 fixed-top pt-5 mt-5">
-	<nav class="nav flex-column nav-pills">
-	  <a class="nav-link active" aria-current="page" href="#">Place List</a>
-	  <a class="nav-link" href="#">Place Manage</a>
-	  <a class="nav-link" href="#">Added Place</a>
-	</nav>
-</div>
-<div class="row pt-5">
-	<div class="col col-lg-2"></div>
-	<div class="col ps-5">
-		<div class="col col-lg-7 mx-auto">
-			<h1>Place List</h1>
-			<table class="table table-striped">
-			  <thead>
-			    <tr>
-			      <th scope="col">#</th>
-			      <th scope="col">Name</th>
-			      <th scope="col">Address</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			  	<c:forEach var="place" items="${placeList }">
-			    <tr class="placeTableRow">
-			    <form name="placeSelect" action="placeSelected.do" method="post">
-			      <th scope="row">${place.pidx }<input type="hidden" name="pidx" value="${place.pidx }"></th>
-			      <td>${place.kname }</td>
-			      <td>${place.addr }</td>
-			    </form>
-			    </tr>
-			    </c:forEach>
-			  </tbody>
-			  <tfoot>
+	<article>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Place List</h1>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+			  <th scope="col">Name</th>
+			  <th scope="col">Address</th>
+            </tr>
+          </thead>
+          <tbody>
+	         	<form name="placeForm" action="placeEditor.do" method="post">
+	         	<input type="hidden" name="pidx">
+	         	</form>
+          	<c:forEach var="p" items="${placeList }">
+            <tr class="placeTableContent" onclick="placeEditor(${p.pidx})">
+              <td>${p.pidx }</td>
+              <td>${p.kname }</td>
+              <td>${p.addr }</td>
+            </tr>
+            </c:forEach>
+          </tbody>
+          <tfoot>
 			  	<tr>
 			  	  <td colspan="3">
 				  	<nav aria-label="..." class="nav justify-content-center">
@@ -101,25 +202,13 @@
 					</nav>
 			  	  </td>
 			  	</tr>
-			  </tfoot>
-			</table>
-		</div>
-	</div> 
+		  </tfoot>
+        </table>
+      </div>
+    </main>
+    </article>
+  </div>
 </div>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</section>
 </body>
 </html>
