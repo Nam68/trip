@@ -41,11 +41,24 @@ public class AdminController {
 		return "admin/admin";
 	}
 	
-	@RequestMapping(value = "/citySelected.do", method = RequestMethod.POST)
-	public ModelAndView citySelected(int ridx, @RequestParam(defaultValue = "1")int cp) {
+	@RequestMapping(value = "/placeList.do", method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView placeList(int ridx, @RequestParam(defaultValue = "1")int cp) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin/admin");
+		mav.setViewName("admin/placeList");
 		mav.addObject("placeList", cp_service.cityPlaceList(ridx));
+		mav.addObject("ridx", ridx);
+		mav.addObject("cities", pr_service.placeRegistList());
+		return mav;
+	}
+	
+	@RequestMapping(value = "/placeAdd.do", method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView placeAdd(int ridx) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin/placeAdd");
+		mav.addObject("ridx", ridx);
+		mav.addObject("cities", pr_service.placeRegistList());
 		return mav;
 	}
 	
