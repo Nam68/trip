@@ -88,8 +88,7 @@ function placeModalSubmit() {
 	window.setTimeout('pageMove('+place+')', 300);
 }
 function pageMove(ridx) {
-	window.alert(ridx);
-	//location.href='main.do?ridx='+ridx;
+	location.href='main.do?ridx='+ridx;
 }
 
 
