@@ -102,7 +102,7 @@
 		            	});
 		            </script>
 		          </tbody>
-		          <tfoot>
+		          <tfoot> 
 					  	<tr>
 					  	  <td colspan="3">
 							${pagination }
