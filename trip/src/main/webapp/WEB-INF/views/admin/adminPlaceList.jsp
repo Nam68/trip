@@ -103,7 +103,7 @@
 		            </script>
 		          </tbody>
 		          <tfoot> 
-					  	<tr>
+					  	<tr> 
 					  	  <td colspan="3">
 							${pagination }
 					  	  </td>
