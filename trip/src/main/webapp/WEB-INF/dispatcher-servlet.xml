@@ -20,6 +20,9 @@
 	<bean id="tripUserService" class="travel.user.service.TripUserServiceImple"></bean>
 	<bean id="cityPlaceSerivce" class="travel.cityPlace.service.CityPlaceServiceImple"></bean>
 	
+	<!-- Modules -->
+	<bean id="adminPage" class="travel.aaamodule.PageMudule"></bean>
+	
 	<!-- views & apps -->
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
 		<property name="contentType" value="application/json;charset=UTF-8"></property>

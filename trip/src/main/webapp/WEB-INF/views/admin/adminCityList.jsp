@@ -74,10 +74,43 @@
     <%@ include file="./adminCitySidebar.jsp" %>
     <article>
     	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    		
+    		  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+		        <h1 class="h2">City List</h1>
+		      </div>
+		      <div class="table-responsive">
+		        <table class="table table-striped table-sm">
+		          <thead>
+		            <tr>
+		              <th scope="col">#</th>
+					  <th scope="col">Name</th>
+		            </tr>
+		          </thead>
+		          <tbody class="placeTableBody">
+		          	<c:forEach var="c" items="${cities }">
+		            <tr class="placeTableContent">
+		              <td>${c.ridx }</td>
+		              <td>${c.kname }</td>
+		            </tr>
+		            </c:forEach>
+		            <script>
+		            	$('.placeTableContent').click(function(){
+		            		var ridx = $(this).find('td:eq(0)').text().trim();
+		            		page_move_with_param('adminCityEditor.do', 'ridx', ridx);
+		            	});
+		            </script>
+		          </tbody>
+		          <tfoot>
+					  	<tr>
+					  	  <td colspan="3">
+							${pagination }
+					  	  </td>
+					  	</tr>
+				  </tfoot>
+		        </table>
+		        <button type="button" class="btn btn-outline-primary" onclick="page_move('adminCityAdd.do')">City Add</button>
+		      </div>
     	</main>
     </article>
-    <input type="hidden" id="adminPageRidx" value="0">
   </div>
 </div>
 </section>

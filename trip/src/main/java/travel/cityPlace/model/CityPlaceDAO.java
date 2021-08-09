@@ -4,6 +4,9 @@ import java.util.List;
 
 public interface CityPlaceDAO {
 	
-	public List cityPlaceList(int ridx);
+	public List cityPlaceList();
+	public List cityPlaceSearchList(int ridx);
+	public int cityPlaceCount();
+	public int cityPlaceSearchCount(int ridx);
 	
 }

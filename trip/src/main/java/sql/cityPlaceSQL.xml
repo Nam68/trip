@@ -5,10 +5,17 @@
   
 <mapper namespace="travel.cityPlace">
 
-<select id="cityPlaceList" parameterType="int" resultType="cityPlace">
-SELECT *
-FROM cityPlace
-WHERE ridx = #{ridx}
+<select id="cityPlaceList" resultType="cityPlace">
+SELECT * FROM cityPlace
+</select>
+<select id="cityPlaceSearchList" resultType="cityPlace">
+SELECT * FROM cityPlace WHERE ridx = #{ridx}
+</select>
+<select id="cityPlaceCount" resultType="int">
+SELECT COUNT(*) FROM cityPlace
+</select>
+<select id="cityPlaceSearchCount" parameterType="int" resultType="int">
+SELECT COUNT(*) FROM cityPlace WHERE ridx = #{ridx}
 </select>
 
 </mapper>

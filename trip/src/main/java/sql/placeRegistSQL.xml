@@ -8,5 +8,19 @@
 <select id="placeRegistList" resultType="placeRegist">
 SELECT * FROM placeRegist
 </select>
-
+<select id="placeRegistSelect" parameterType="int" resultType="placeRegist">
+SELECT * FROM placeRegist WHERE ridx = #{ridx}
+</select>
+<select id="placeRegistCount" resultType="int">
+SELECT COUNT(*) FROM placeRegist
+</select>
+<insert id="placeRegistAdd" parameterType="string">
+INSERT INTO placeRegist 
+VALUES(get_seq('regist'), '', #{kname})
+</insert>
+<update id="placeRegistKnameUpdate" parameterType="map">
+UPDATE placeRegist
+SET kname = #{kname}
+WHERE ridx = #{ridx}
+</update>
 </mapper>
