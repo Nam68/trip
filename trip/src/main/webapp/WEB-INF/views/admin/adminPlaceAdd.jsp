@@ -75,7 +75,7 @@
 
 <!-- Custom -->
 <style>
-.placeImgSample{}
+.placeImgSample{width:200px; height:200px; border-radius:8px; background:#868e96; color:#dee2e6;}
 </style>
 
 <style>
@@ -116,41 +116,59 @@ function initMap() {
 				  	<span class="input-group-text">Name</span>
 				  	<input id="placeNameInput" type="text" class="form-control" placeholder="Place Name" aria-label="Username">
 			  	</div>
-			 
 			  	<div class="input-group mb-3">
 				  	<span class="input-group-text">Address</span>
-				  	<a id="addressCheckBtn" class="btn btn-outline-danger" data-bs-toggle="collapse" href="#addressCheckForm" role="button" aria-expanded="false" aria-controls="collapseExample">
+				  	<a id="addressCheckBtn" class="btn btn-outline-danger" data-bs-toggle="collapse" href="" role="button" aria-expanded="false" aria-controls="collapseExample">
 					    Address Check
 					</a>
+				  	<input id="placeAddressInput" type="text" class="form-control" placeholder="Address" aria-label="Username">		  	
 					<script>
-						$('#addressCheckBtn').click(function(e){
-							var addr = $('#placeAddressInput').val();
+						$('#placeAddressInput').change(function(){
+							$('#liveAlertPlaceholder').empty();
+							var addr = $(this).val();
 							if(addr==null || addr=='') {
-								
+								$('#addressCheckBtn').removeAttr('href');
+							} else {
+								$('#addressCheckBtn').attr('href', '#addressCheckForm');
 							}
 						});
+						
+						$('#addressCheckBtn').click(function(){
+							var addr = $('#placeAddressInput').val();
+							if(addr==null || addr=='') {
+								addrAlert('주소 입력창에 정보를 입력해주세요.');
+							}
+						});
+						
+						function addrAlert(message) {
+							var wrapper = document.createElement('div');
+							wrapper.innerHTML = '<div class="alert alert-danger alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+							
+							if($('#liveAlertPlaceholder').find('[role="alert"]').length == 0) {
+								$('#liveAlertPlaceholder').append(wrapper);	
+							}
+						}
 					</script>
-				  	<input id="placeAddressInput" type="text" class="form-control" placeholder="Address" aria-label="Username">
 			  	</div>
+			  	<div id="liveAlertPlaceholder"></div>
 			  	<div class="collapse" id="addressCheckForm">
 					<div class="card card-body">
 				    	<div class="container">
-			  		<div class="row">
-				  		<div class="col">
-				  			<div id="map"></div>
-				  		</div>
-				  		<div class="col align-self-center">
-				  			<p class="h5 text-center">지도에 표시된 위치가 맞습니까?</p>
-				  			<div class="d-grid gap-2 d-md-block text-center">
-								<button class="btn btn-primary" type="button">Yes</button>
-								<button class="btn btn-outline-danger" type="button">No</button>
-							</div>
-				  		</div>
-			  		</div>
-			  	</div>
+			  				<div class="row">
+				  				<div class="col">
+				  					<div id="map"></div>
+				  				</div>
+				  				<div class="col align-self-center">
+				  					<p class="h5 text-center">지도에 표시된 위치가 맞습니까?</p>
+				  					<div class="d-grid gap-2 d-md-block text-center">
+										<button class="btn btn-primary" type="button">Yes</button>
+										<button class="btn btn-outline-danger" type="button">No</button>
+									</div>
+				  				</div>
+			  				</div>
+			  			</div>
 					</div>
 				</div>
-			  	
 			  	<div class="input-group mb-3 mt-3">
 					<label class="input-group-text" for="inputGroupFile01">Image</label>
 					<input type="file" class="form-control" id="inputGroupFile01">
@@ -158,9 +176,7 @@ function initMap() {
 			  	<div class="container">
 			  		<div class="row">
 				  		<div class="col">
-				  			<div class="placeImgSample"></div>
-				  		</div>
-				  		<div class="col">
+				  			<div class="placeImgSample">SAMPLE IMAGE<br>200x200</div>
 				  		</div>
 			  		</div>
 			  	</div>
