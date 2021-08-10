@@ -101,6 +101,24 @@ public class AdminController {
 		return "admin/adminPlaceList";
 	}
 	
+	@RequestMapping(value = "/adminPlaceAdd.do", method = RequestMethod.POST)
+	public String adminPlaceAdd(Model model, @RequestParam(defaultValue = "0")int ridx) {
+		model.addAttribute("cities", pr_service.placeRegistList());
+		model.addAttribute("menu", "place");	
+		model.addAttribute("sidemenu", "add");	
+		model.addAttribute("ridx", ridx);	
+		return "admin/adminPlaceAdd";
+	}
+	
+	@RequestMapping(value = "/adminPlaceEditor.do", method = RequestMethod.POST)
+	public String adminPlaceEditor(Model model, @RequestParam(defaultValue = "0")int ridx) {
+		model.addAttribute("cities", pr_service.placeRegistList());
+		model.addAttribute("menu", "place");	
+		model.addAttribute("sidemenu", "edit");	
+		model.addAttribute("ridx", ridx);	
+		return "admin/adminPlaceEditor";
+	}
+	
 	
 	
 	

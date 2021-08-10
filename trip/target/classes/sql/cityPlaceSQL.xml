@@ -8,7 +8,7 @@
 <select id="cityPlaceList" resultType="cityPlace">
 SELECT * FROM cityPlace
 </select>
-<select id="cityPlaceSearchList" resultType="cityPlace">
+<select id="cityPlaceSearchList" parameterType="int" resultType="cityPlace">
 SELECT * FROM cityPlace WHERE ridx = #{ridx}
 </select>
 <select id="cityPlaceCount" resultType="int">

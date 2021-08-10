@@ -19,7 +19,7 @@ public class CityPlaceDAOImple implements CityPlaceDAO {
 	}
 	
 	public List cityPlaceSearchList(int ridx) {
-		return sqlMap.selectList("cityPlaceList", ridx);
+		return sqlMap.selectList("cityPlaceSearchList", ridx);
 	}
 	
 	public int cityPlaceCount() {

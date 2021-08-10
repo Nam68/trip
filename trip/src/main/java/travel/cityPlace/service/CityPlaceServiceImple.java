@@ -25,7 +25,7 @@ public class CityPlaceServiceImple implements CityPlaceService {
 	
 	public String getCityPlaceListPageNav(int cp, int ridx) {
 		int total = ridx==0? dao.cityPlaceCount():dao.cityPlaceSearchCount(ridx);
-		return page.getPageNav(cp, total, listSize, pageSize, "adminPlaceList.do");
+		return page.getPageNav(cp, total, listSize, pageSize, "ridx", ridx, "adminPlaceList.do");
 	}
 
 }

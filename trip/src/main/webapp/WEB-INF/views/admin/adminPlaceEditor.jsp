@@ -75,52 +75,10 @@
     <article>
     	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     		  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-		        <h1 class="h2">Place List</h1>
+		        <h1 class="h2">Place Editor</h1>
 		      </div>
 		      <div class="table-responsive">
-		        <table class="table table-striped table-sm">
-		          <thead>
-		            <tr>
-		              <th scope="col">#</th>
-					  <th scope="col">Name</th>
-					  <th scope="col">Address</th>
-		            </tr>
-		          </thead>
-		          <tbody class="placeTableBody">
-		          	<c:forEach var="p" items="${places }">
-		            <tr class="placeTableContent">
-		              <td>${p.pidx }</td>
-		              <td>${p.kname }</td>
-		              <td>${p.addr }</td>
-		            </tr>
-		            </c:forEach>
-			            <c:if test="${!empty places }">
-				            <script>
-				            	$('.placeTableContent').click(function(){
-				            		var pidx = $(this).find('td:eq(0)').text().trim();
-				            		page_move_with_params('adminPlaceEditor.do', ['ridx', 'pidx'], [${ridx}, pidx]);
-				            	});
-				            </script>
-			            </c:if>
-		            <c:if test="${empty places }">
-		            <tr class="placeTableContent">
-		            	<td colspan="3"> 등록된 장소가 없습니다.</td>
-		              		<script>
-				            	$('.placeTableContent').click(function(){
-				            		page_move_with_param('adminPlaceAdd.do', 'ridx', ${ridx});
-				            	});
-				            </script>
-		            </c:if>
-		          </tbody>
-		          <tfoot> 
-					  	<tr> 
-					  	  <td colspan="3">
-							${pagination }
-					  	  </td>
-					  	</tr>
-				  </tfoot>
-		        </table>
-		        <button type="button" class="btn btn-outline-primary" onclick="page_move_with_param('adminPlaceAdd.do', 'ridx', ${ridx})">Place Add</button>
+		        
 		      </div>
     	</main>
     </article>
