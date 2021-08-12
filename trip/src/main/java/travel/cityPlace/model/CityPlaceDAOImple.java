@@ -1,6 +1,7 @@
 package travel.cityPlace.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,14 @@ public class CityPlaceDAOImple implements CityPlaceDAO {
 	
 	public int cityPlaceSearchCount(int ridx) {
 		return sqlMap.selectOne("cityPlaceSearchCount", ridx);
+	}
+	
+	public CityPlaceDTO cityPlaceSelect(int pidx) {
+		return sqlMap.selectOne("cityPlaceSelect", pidx);
+	}
+	
+	public int cityPlaceInsert(Map<String, Object> map) {
+		return sqlMap.insert("cityPlaceInsert", map);
 	}
 	
 }

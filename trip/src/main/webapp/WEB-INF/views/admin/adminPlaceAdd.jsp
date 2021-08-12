@@ -15,7 +15,7 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <link rel="stylesheet" type="text/css" href="./style.css" />
 <script src="./index.js"></script>
-<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPg6sDuTdTWAWj17NeU9JkTVNEs3gJfIU&callback=initMap&libraries=&v=weekly&libraries=places&region=KR"></script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPg6sDuTdTWAWj17NeU9JkTVNEs3gJfIU&libraries=&v=weekly&libraries=places&region=KR"></script>
 
 <style>
 .sidebar {
@@ -82,13 +82,39 @@
 #map {width:400px; height:300px; border-radius:8px; border:solid black 1px;}
 </style>
 <script>
-let map;
-function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 37.344, lng: 126.58 },
-    zoom: 8,
-  });
-}
+var map;
+var service;
+var lat = 0;
+var lng = 0;
+var formatted_address;
+function initMap(addr) {
+	  var seoul = new google.maps.LatLng(37.344, 126.58);
+
+	  map = new google.maps.Map(document.getElementById('map'), {center: seoul, zoom: 15});
+
+	  var request = {
+	    query: addr,
+	    fields: ['name', 'geometry', 'formatted_address']
+	  };
+
+	  var service = new google.maps.places.PlacesService(map);
+
+	  service.findPlaceFromQuery(request, function(results, status) {
+	  	if (status === google.maps.places.PlacesServiceStatus.OK) {
+	  		var position = results[0].geometry.location;
+	    	var marker = new google.maps.Marker({
+                position: position, 
+                map: map
+            });
+	    	marker.setAnimation(google.maps.Animation.BOUNCE);
+	     	map.setCenter(position);
+	     	
+	     	lat = results[0].geometry.location.lat();
+	     	lng = results[0].geometry.location.lng();
+	     	formatted_address = results[0].formatted_address;
+	    }
+	  });
+	}
 </script>
 </head>
 <%@ include file="./adminHeader.jsp" %>
@@ -112,15 +138,51 @@ function initMap() {
 				   	 	</c:forEach>
 					  	</select>
 					  	<label for="floatingSelect">City</label>
+					  	<script>
+					  		var city = ${ridx};
+							var name = '';
+							var addr = '';
+					  		$('#placeCitySelect').change(function(){
+					  			city = $(this).val();
+					  			if(city == 0) {
+					  				$('#placeAddCheckBtn').removeAttr('href');
+					  			} else if(city!=null && name!='' && addr!='') {
+					  				$('#placeAddCheckBtn').attr('href', '#placeAddCheck');
+					  				$('#liveAlertPlaceholder').empty();
+					  			}
+					  		});
+					  	</script>
 					</div>
 				</div>
 				<div class="form-floating mb-3">
 					<input type="email" class="form-control" id="placeNameInput" placeholder="Place Name">
 					<label for="floatingInput">Place Name</label>
+					<script>
+						$('#placeNameInput').change(function(){
+				  			name = $(this).val();
+				  			if(name == '') {
+				  				$('#placeAddCheckBtn').removeAttr('href');
+				  			} else if(city!=null && name!='' && addr!='') {
+				  				$('#placeAddCheckBtn').attr('href', '#placeAddCheck');
+				  				$('#liveAlertPlaceholder').empty();
+				  			}
+				  		});
+					</script>
 				</div>
 			  	<div class="form-floating mb-3">
 					<input type="email" class="form-control" id="placeAddressInput" placeholder="Address">
 					<label for="floatingInput">Address</label>
+					<script>
+						$('#placeAddressInput').change(function(){
+				  			addr = $(this).val();
+				  			if(addr == '') {
+				  				$('#placeAddCheckBtn').removeAttr('href');
+				  			} else if(city!=null && name!='' && addr!='') {
+				  				$('#placeAddCheckBtn').attr('href', '#placeAddCheck');
+				  				$('#liveAlertPlaceholder').empty();
+				  			}
+				  		});
+					</script>
 				</div>
 			  	<div class="input-group mb-3">
 					<label class="input-group-text" for="inputGroupFile01">Image</label>
@@ -134,20 +196,18 @@ function initMap() {
 					<script>
 						//href="placeAddCheck"
 						$('#placeAddCheckBtn').click(function(){
-							var city = $('#placeCitySelect').val();
-							var name = $('#placeNameInput').val();
-							var addr = $('#placeAddressInput').val();
-							
+							if($('#liveAlertPlaceholder').find('[role="alert"]').length > 0) {
+								return;
+							}
 							if(city==0 || name==null || name=='' || addr==null || addr=='') {
-								if($('#liveAlertPlaceholder').find('[role="alert"]').length > 0) {
-									return;
-								}
 								var wrapper = document.createElement('div');
 								var message = '필수 입력사항을 입력해주세요.';
 								wrapper.innerHTML = '<div class="alert alert-danger alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
 								$('#liveAlertPlaceholder').append(wrapper);
 							} else {
-								$(this).attr('href', '#placeAddCheck');
+								$('#placeCheckCity').html($('#placeCitySelect option:selected').html());
+								$('#placeCheckName').html(name)
+								initMap($('#placeAddressInput').val());
 							}
 						});
 					</script>
@@ -161,7 +221,7 @@ function initMap() {
 						   		<h6>City</h6>
 						  	</div>
 						  	<div class="col-sm-10">
-						    	<h5 id="placeCheckCity">Place Name</h5>
+						    	<h5 id="placeCheckCity">City</h5>
 						  	</div>
 						</div>
 						<div class="row g-3">
@@ -190,8 +250,34 @@ function initMap() {
 						</div>
 						<div class="mt-3 mb-5 ">
 							<div class="d-grid gap-2 d-md-block">
-							  	<button class="btn btn-primary" type="button">Submit</button>
-							  	<button class="btn btn-outline-danger" type="button">Cancel</button>
+							  	<button id="placeAddSubmit" class="btn btn-primary" type="button">Submit</button>
+							  	<button id="placeAddCancel" class="btn btn-outline-danger" type="button">Cancel</button>
+							  	<script>
+							  		$('#placeAddSubmit').click(function(){
+							  			$.ajax({ 
+							  				type: 'GET', 
+							  				url: 'adminPlaceAdd.do', 
+							  				data: {
+							  					ridx:city,
+							  					kname:name,
+							  					img:'',
+							  					lat:lat,
+							  					lng:lng,
+							  					addr:formatted_address
+							  					}, 
+							  				success: function(data) {
+							  					window.alert(data);
+							  					location.reload();
+							  				}
+							  			})
+							  			.fail(function(){
+							  				window.alert('서버에 이상이 발생했습니다.');
+							  			});
+							  		});
+							  		$('#placeAddCancel').click(function(){
+							  			location.reload();
+							  		});
+							  	</script>
 							</div>
 						</div>
 					</div>

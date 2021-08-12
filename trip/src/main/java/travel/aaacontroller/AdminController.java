@@ -110,15 +110,30 @@ public class AdminController {
 		return "admin/adminPlaceAdd";
 	}
 	
+	@RequestMapping(value = "/adminPlaceAdd.do", method = RequestMethod.GET, produces = "aplication/text;charset=UTF-8")
+	@ResponseBody
+	public String adminPlaceAdd(int ridx, String kname, String img, double lat, double lng, String addr) {
+		String msg = cp_service.cityPlaceInsert(ridx, kname, img, lat, lng, addr)>0? "등록에 성공했습니다.":"등록에 실패했습니다.";
+		return msg;
+	}
+	
 	@RequestMapping(value = "/adminPlaceEditor.do", method = RequestMethod.POST)
-	public String adminPlaceEditor(Model model, @RequestParam(defaultValue = "0")int ridx) {
+	public String adminPlaceEditor(Model model, int ridx, int pidx) {
 		model.addAttribute("cities", pr_service.placeRegistList());
 		model.addAttribute("menu", "place");	
 		model.addAttribute("sidemenu", "edit");	
-		model.addAttribute("ridx", ridx);	
+		model.addAttribute("place", cp_service.cityPlaceSelect(pidx));	
 		return "admin/adminPlaceEditor";
 	}
 	
+	@RequestMapping(value = "/adminPlaceEditor.do", method = RequestMethod.GET, produces = "aplication/text;charset=UTF-8")
+	@ResponseBody
+	public String adminPlaceEditor(@RequestParam(defaultValue = "0")int ridx, @RequestParam(defaultValue = "")String kname, 
+			@RequestParam(defaultValue = "0")double lat, @RequestParam(defaultValue = "0")double lng, @RequestParam(defaultValue = "")String addr,
+			@RequestParam(defaultValue = "")String img) {
+		String msg;
+		return "admin/adminPlaceEditor";
+	}
 	
 	
 	

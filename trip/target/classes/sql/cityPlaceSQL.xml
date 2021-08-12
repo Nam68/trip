@@ -17,7 +17,14 @@ SELECT COUNT(*) FROM cityPlace
 <select id="cityPlaceSearchCount" parameterType="int" resultType="int">
 SELECT COUNT(*) FROM cityPlace WHERE ridx = #{ridx}
 </select>
+<select id="cityPlaceSelect" parameterType="int" resultMap="cityPlace">
+SELECT * FROM cityPlace WHERE pidx = #{pidx}
+</select>
 
+<insert id="cityPlaceInsert" parameterType="map">
+INSERT INTO cityPlace
+VALUES(get_seq('pidx'), #{ridx}, '', #{kname}, #{img}, #{lat}, #{lng}, #{addr})
+</insert>
 </mapper>
 
 
