@@ -75,7 +75,7 @@
 
 <!-- Custom -->
 <style>
-.placeImgSample{width:200px; height:200px; border-radius:8px; background:#868e96; color:#dee2e6;}
+.placeImgSample{width:200px; height:200px; border-radius:8px; background:#868e96; color:#dee2e6; display: flex; align-items: center; text-align: center; padding: 70px;}
 </style>
 
 <style>
@@ -104,82 +104,98 @@ function initMap() {
 			</div>
 			<div class="table-responsive">
 		      	<div class="input-group mb-3">
-				  	<label class="input-group-text" for="inputGroupSelect01">City</label>
-				  	<select class="form-select" id="inputGroupSelect01">
-				    	<option value="0" ${ridx==0? 'selected':'' }>Choose...</option>
+					<div class="form-floating">
+						<select class="form-select" id="placeCitySelect">
+					    	<option value="0" ${ridx==0? 'selected':'' }>Choose...</option>
 				   	 	<c:forEach var="c" items="${cities }">
 				   	 	<option value="${c.ridx }" ${ridx==c.ridx? 'selected':'' }>${c.kname }</option>
 				   	 	</c:forEach>
-					</select>
+					  	</select>
+					  	<label for="floatingSelect">City</label>
+					</div>
 				</div>
-				<div class="input-group mb-3">
-				  	<span class="input-group-text">Name</span>
-				  	<input id="placeNameInput" type="text" class="form-control" placeholder="Place Name" aria-label="Username">
+				<div class="form-floating mb-3">
+					<input type="email" class="form-control" id="placeNameInput" placeholder="Place Name">
+					<label for="floatingInput">Place Name</label>
+				</div>
+			  	<div class="form-floating mb-3">
+					<input type="email" class="form-control" id="placeAddressInput" placeholder="Address">
+					<label for="floatingInput">Address</label>
+				</div>
+			  	<div class="input-group mb-3">
+					<label class="input-group-text" for="inputGroupFile01">Image</label>
+					<input type="file" class="form-control" id="inputGroupFile01">
+					<script></script>
 			  	</div>
 			  	<div class="input-group mb-3">
-				  	<span class="input-group-text">Address</span>
-				  	<a id="addressCheckBtn" class="btn btn-outline-danger" data-bs-toggle="collapse" href="" role="button" aria-expanded="false" aria-controls="collapseExample">
-					    Address Check
+					<a id="placeAddCheckBtn" class="btn btn-outline-danger" data-bs-toggle="collapse" href="#" role="button" aria-expanded="false" aria-controls="placeAddCheck">
+						Check
 					</a>
-				  	<input id="placeAddressInput" type="text" class="form-control" placeholder="Address" aria-label="Username">		  	
 					<script>
-						$('#placeAddressInput').change(function(){
-							$('#liveAlertPlaceholder').empty();
-							var addr = $(this).val();
-							if(addr==null || addr=='') {
-								$('#addressCheckBtn').removeAttr('href');
-							} else {
-								$('#addressCheckBtn').attr('href', '#addressCheckForm');
-							}
-						});
-						
-						$('#addressCheckBtn').click(function(){
+						//href="placeAddCheck"
+						$('#placeAddCheckBtn').click(function(){
+							var city = $('#placeCitySelect').val();
+							var name = $('#placeNameInput').val();
 							var addr = $('#placeAddressInput').val();
-							if(addr==null || addr=='') {
-								addrAlert('주소 입력창에 정보를 입력해주세요.');
+							
+							if(city==0 || name==null || name=='' || addr==null || addr=='') {
+								if($('#liveAlertPlaceholder').find('[role="alert"]').length > 0) {
+									return;
+								}
+								var wrapper = document.createElement('div');
+								var message = '필수 입력사항을 입력해주세요.';
+								wrapper.innerHTML = '<div class="alert alert-danger alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+								$('#liveAlertPlaceholder').append(wrapper);
+							} else {
+								$(this).attr('href', '#placeAddCheck');
 							}
 						});
-						
-						function addrAlert(message) {
-							var wrapper = document.createElement('div');
-							wrapper.innerHTML = '<div class="alert alert-danger alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-							
-							if($('#liveAlertPlaceholder').find('[role="alert"]').length == 0) {
-								$('#liveAlertPlaceholder').append(wrapper);	
-							}
-						}
 					</script>
 			  	</div>
 			  	<div id="liveAlertPlaceholder"></div>
-			  	<div class="collapse" id="addressCheckForm">
+			  	<div class="collapse" id="placeAddCheck">
 					<div class="card card-body">
-				    	<div class="container">
-			  				<div class="row">
-				  				<div class="col">
-				  					<div id="map"></div>
-				  				</div>
-				  				<div class="col align-self-center">
-				  					<p class="h5 text-center">지도에 표시된 위치가 맞습니까?</p>
-				  					<div class="d-grid gap-2 d-md-block text-center">
-										<button class="btn btn-primary" type="button">Yes</button>
-										<button class="btn btn-outline-danger" type="button">No</button>
-									</div>
-				  				</div>
-			  				</div>
-			  			</div>
+						<div class="mt-2 mb-2"><h4>Place Information Check</h4></div>
+						<div class="row g-3">
+						  	<div class="col-sm">
+						   		<h6>City</h6>
+						  	</div>
+						  	<div class="col-sm-10">
+						    	<h5 id="placeCheckCity">Place Name</h5>
+						  	</div>
+						</div>
+						<div class="row g-3">
+						  	<div class="col-sm">
+						   		<h6>Place Name</h6>
+						  	</div>
+						  	<div class="col-sm-10">
+						    	<h5 id="placeCheckName">Place Name</h5>
+						  	</div>
+						</div>
+						<div class="row g-3">
+						  	<div class="col-sm">
+						   		<h6>Address</h6>
+						  	</div>
+						  	<div class="col-sm-10">
+						    	<div id="map"></div>
+						  	</div>
+						</div>
+						<div class="row g-3 mt-2">
+						  	<div class="col-sm">
+						   		<h6>Image</h6>
+						  	</div>
+						  	<div class="col-sm-10">
+						    	<div class="placeImgSample">SAMPLE IMAGE<br>200x200</div>
+						  	</div>
+						</div>
+						<div class="mt-3 mb-5 ">
+							<div class="d-grid gap-2 d-md-block">
+							  	<button class="btn btn-primary" type="button">Submit</button>
+							  	<button class="btn btn-outline-danger" type="button">Cancel</button>
+							</div>
+						</div>
 					</div>
 				</div>
-			  	<div class="input-group mb-3 mt-3">
-					<label class="input-group-text" for="inputGroupFile01">Image</label>
-					<input type="file" class="form-control" id="inputGroupFile01">
-			  	</div>
-			  	<div class="container">
-			  		<div class="row">
-				  		<div class="col">
-				  			<div class="placeImgSample">SAMPLE IMAGE<br>200x200</div>
-				  		</div>
-			  		</div>
-			  	</div>
 			</div>
     	</main>
     </article>
