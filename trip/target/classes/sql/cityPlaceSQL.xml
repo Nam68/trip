@@ -17,7 +17,7 @@ SELECT COUNT(*) FROM cityPlace
 <select id="cityPlaceSearchCount" parameterType="int" resultType="int">
 SELECT COUNT(*) FROM cityPlace WHERE ridx = #{ridx}
 </select>
-<select id="cityPlaceSelect" parameterType="int" resultMap="cityPlace">
+<select id="cityPlaceSelect" parameterType="int" resultType="cityPlace">
 SELECT * FROM cityPlace WHERE pidx = #{pidx}
 </select>
 
@@ -25,6 +25,27 @@ SELECT * FROM cityPlace WHERE pidx = #{pidx}
 INSERT INTO cityPlace
 VALUES(get_seq('pidx'), #{ridx}, '', #{kname}, #{img}, #{lat}, #{lng}, #{addr})
 </insert>
+
+<update id="cityPlaceRidxUpdate" parameterType="map">
+UPDATE cityPlace
+SET ridx = #{ridx}
+WHERE pidx = #{pidx}
+</update>
+<update id="cityPlaceKnameUpdate" parameterType="map">
+UPDATE cityPlace
+SET kname = #{kname}
+WHERE pidx = #{pidx}
+</update>
+<update id="cityPlaceAddressUpdate" parameterType="map">
+UPDATE cityPlace
+SET lat = #{lat}, lng = #{lng}, addr = #{addr}
+WHERE pidx = #{pidx}
+</update>
+<update id="cityPlaceImgUpdate" parameterType="map">
+UPDATE cityPlace
+SET img = #{img}
+WHERE pidx = #{pidx}
+</update>
 </mapper>
 
 

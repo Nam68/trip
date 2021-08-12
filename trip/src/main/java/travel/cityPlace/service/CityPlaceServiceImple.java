@@ -1,9 +1,11 @@
 package travel.cityPlace.service;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import travel.aaamodule.PageMudule;
@@ -46,11 +48,27 @@ public class CityPlaceServiceImple implements CityPlaceService {
 		return dao.cityPlaceInsert(map);
 	}
 	
-	public int cityPlaceUpdate(int ridx, String kname, double lat, double lng, String addr, String img) {
-		
-		
-		
-		return 0;
+	public int cityPlaceUpdate(int pidx, String param) {
+		Map<String, Object> map = new HashMap<String, Object>();
+        JSONObject json = new JSONObject(String.valueOf(param));
+        Iterator<String> i = json.keys();
+        while(i.hasNext()){
+             String k = i.next().toString();
+             map.put(k, json.get(k));
+        }
+        map.put("pidx", pidx);
+        
+        if(map.get("ridx")!=null) {
+        	return dao.cityPlaceRidxUpdate(map);
+        } else if(map.get("kname")!=null) {
+        	return dao.cityPlaceKnameUpdate(map);
+        } else if(map.get("addr")!=null) {
+        	return dao.cityPlaceAddressUpdate(map);
+        } else if(map.get("img")!=null) {
+        	return dao.cityPlaceImgUpdate(map);
+        } else {
+        	return 0;
+        }
 	}
 
 }

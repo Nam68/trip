@@ -15,6 +15,6 @@ public interface CityPlaceService {
 	public CityPlaceDTO cityPlaceSelect(int pidx);
 	public String getCityPlaceListPageNav(int cp, int ridx);
 	public int cityPlaceInsert(int ridx, String kname, String img, double lat, double lng, String addr);
-	public int cityPlaceUpdate(int ridx,String kname, double lat, double lng, String addr, String img);
+	public int cityPlaceUpdate(int pidx, String param);
 	
 }

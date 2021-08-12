@@ -39,4 +39,20 @@ public class CityPlaceDAOImple implements CityPlaceDAO {
 		return sqlMap.insert("cityPlaceInsert", map);
 	}
 	
+	public int cityPlaceRidxUpdate(Map<String, Object> map) {
+		return sqlMap.update("cityPlaceRidxUpdate", map);
+	}
+	
+	public int cityPlaceKnameUpdate(Map<String, Object> map) {
+		return sqlMap.update("cityPlaceKnameUpdate", map);
+	}
+	
+	public int cityPlaceAddressUpdate(Map<String, Object> map) {
+		return sqlMap.update("cityPlaceAddressUpdate", map);
+	}
+	
+	public int cityPlaceImgUpdate(Map<String, Object> map) {
+		return sqlMap.update("cityPlaceImgUpdate", map);
+	}
+	
 }

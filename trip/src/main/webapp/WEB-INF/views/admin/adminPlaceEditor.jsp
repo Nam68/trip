@@ -119,10 +119,14 @@
 		  });
 	}
 	
-	function updateAjax(params) {
+	function updateAjax(param) {
+		var params = {
+			pidx: ${place.pidx},
+			param: JSON.stringify(param)
+		};
 		$.ajax({
 			type: 'GET',
-			url: 'placeEditor.do',
+			url: 'adminPlaceEditor.do',
 			data: params,
 			success: function(data){
 				window.alert(data);
@@ -176,10 +180,13 @@
 			    				
 			    				$('#placeCitySubmitBtn').click(function(){
 			    					var ridx = $('#placeCityEditSelect').val();
-			    					if(ridx==0) window.alert('도시를 선택해주세요.'); return;
+			    					if(ridx==0) {
+			    						window.alert('도시를 선택해주세요.');
+			    						return;
+			    					}
 			    					
-			    					var params = {ridx: ridx};
-			    					updateAjax(params);
+			    					var param = {ridx: ridx};
+			    					updateAjax(param);
 			    				});
 			    			</script>
 			    		</div>
@@ -212,10 +219,13 @@
 			    				
 			    				$('#placeNameSubmitBtn').click(function(){
 			    					var kname = $('#placeNameEditInput').val();
-			    					if(kname==null || kname=='') window.alert('이름을 입력해주세요.') return;
+			    					if(kname==null || kname=='') {
+			    						window.alert('이름을 입력해주세요.');
+			    						return;
+			    					}
 			    					
-			    					var params = {kname: kname};
-			    					updateAjax(params);
+			    					var param = {kname: kname};
+			    					updateAjax(param);
 			    				});
 			    			</script>
 			    		</div>
@@ -246,15 +256,16 @@
 									  		});
 									  		$('#placeAddressSubmitBtn').click(function(){
 									  			if(formatted_address==null || formatted_address==''){
-									  				window.alert('주소를 입력해주세요.');
+									  				window.alert('주소를 입력한 후 체크 버튼을 눌러주세요.');
 									  				return;
 									  			}
-									  			var params = {
+									  			
+									  			var param = {
 									  				lat: lat,
 									  				lng: lng,
 									  				addr: formatted_address
 									  			};
-									  			updateAjax(params);
+									  			updateAjax(param);
 									  		});
 									  	</script>
 									</div>
@@ -283,12 +294,12 @@
 										  	$('#placeImgSubmitBtn').click(function(){
 										  		var img = $('#placeImgUpload').src;
 										  		window.alert(img);
-										  		var params = {img: img};
-										  		updateAjax(params);
+										  		var param = {img: img};
+										  		updateAjax(param);
 										  	});
 									  	</script>
 									</div>
-			  					</div>
+			  						</div>
 			  					</div>
 							</div>
 			    		</div>
@@ -297,7 +308,12 @@
 			  </div>
 			</div>
 			<div class="mt-5">
-				<button type="button" class="btn btn-danger">Go to List</button>
+				<button id="placeEditCancelBtn" type="button" class="btn btn-danger">Go to List</button>
+				<script>
+					$('#placeEditCancelBtn').click(function(){
+						page_move_with_param('adminPlaceList.do', 'ridx', ${place.ridx});
+					});
+				</script>
 			</div>
     	</main>
     </article>

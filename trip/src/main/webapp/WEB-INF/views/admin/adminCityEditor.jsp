@@ -160,7 +160,12 @@
 						<label for="cityNameInput" class="form-label">등록된 관광지 보러가기</label>
 					</div>
 					<div class="col-auto">
-						<button type="submit" class="btn btn-primary mb-3" id="liveAlertBtn">GO</button>
+						<button id="cityPlaceListBtn" type="submit" class="btn btn-primary mb-3" id="liveAlertBtn">GO</button>
+						<script>
+							$('#cityPlaceListBtn').click(function(){
+								page_move_with_param('adminPlaceList.do', 'ridx', ${ridx});
+							});
+						</script>
 					</div>
 				</div>
 			</div>

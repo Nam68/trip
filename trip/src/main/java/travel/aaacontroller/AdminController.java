@@ -1,10 +1,13 @@
 package travel.aaacontroller;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,7 +100,7 @@ public class AdminController {
 		model.addAttribute("sidemenu", "list");	
 		model.addAttribute("places", cp_service.cityPlaceList(ridx));
 		model.addAttribute("pagination", cp_service.getCityPlaceListPageNav(cp, ridx));
-		model.addAttribute("ridx", ridx);	
+		model.addAttribute("ridx", ridx);
 		return "admin/adminPlaceList";
 	}
 	
@@ -128,36 +131,9 @@ public class AdminController {
 	
 	@RequestMapping(value = "/adminPlaceEditor.do", method = RequestMethod.GET, produces = "aplication/text;charset=UTF-8")
 	@ResponseBody
-	public String adminPlaceEditor(@RequestParam(defaultValue = "0")int ridx, @RequestParam(defaultValue = "")String kname, 
-			@RequestParam(defaultValue = "0")double lat, @RequestParam(defaultValue = "0")double lng, @RequestParam(defaultValue = "")String addr,
-			@RequestParam(defaultValue = "")String img) {
-		String msg;
-		return "admin/adminPlaceEditor";
-	}
-	
-	
-	
-	
-	
-	@RequestMapping(value = "/placeList.do", method = RequestMethod.POST)
-	@ResponseBody
-	public ModelAndView placeList(int ridx, @RequestParam(defaultValue = "1")int cp) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin/placeList");
-		mav.addObject("placeList", cp_service.cityPlaceList(ridx));
-		mav.addObject("ridx", ridx);
-		mav.addObject("cities", pr_service.placeRegistList());
-		return mav;
-	}
-	
-	@RequestMapping(value = "/placeAdd.do", method = RequestMethod.POST)
-	@ResponseBody
-	public ModelAndView placeAdd(int ridx) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin/placeAdd");
-		mav.addObject("ridx", ridx);
-		mav.addObject("cities", pr_service.placeRegistList());
-		return mav;
+	public String adminPlaceEditor(int pidx, String param) {
+		String msg = cp_service.cityPlaceUpdate(pidx, param)>0? "변경에 성공했습니다":"변경에 실패했습니다.";
+		return msg;
 	}
 	
 }

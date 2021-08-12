@@ -1,4 +1,5 @@
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
 	<div class="position-sticky pt-3">
 		<ul class="nav flex-column">
@@ -17,7 +18,8 @@
 		page_move('adminPlaceAdd.do');
 	});
 	$('.flex-column').find('li:eq(2)').click(function(){
-		page_move('adminPlaceEditor.do');
+		window.alert('리스트에서 항목을 선택해주세요.');
+		page_move('adminPlaceList.do');
 	});
 	$('.flex-column').find('li:eq(30)').click(function(){
 		page_move('adminPlaceDash.do');

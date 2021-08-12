@@ -12,4 +12,8 @@ public interface CityPlaceDAO {
 	public CityPlaceDTO cityPlaceSelect(int pidx);
 	public int cityPlaceInsert(Map<String, Object> map);
 	
+	public int cityPlaceRidxUpdate(Map<String, Object> map);
+	public int cityPlaceKnameUpdate(Map<String, Object> map);
+	public int cityPlaceAddressUpdate(Map<String, Object> map);
+	public int cityPlaceImgUpdate(Map<String, Object> map);
 }
