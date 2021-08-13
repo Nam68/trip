@@ -5,6 +5,7 @@
 			<li class="nav-item"><a class="side-nav-link ${sidemenu=='list'? 'side-active':'' }">City List </a></li>
 			<li class="nav-item"><a class="side-nav-link ${sidemenu=='add'? 'side-active':'' }">City Add </a></li>
 			<li class="nav-item"><a class="side-nav-link ${sidemenu=='editor'? 'side-active':'' }">City Editor</a></li>
+			<li class="nav-item"><a class="side-nav-link ${sidemenu=='delete'? 'side-active':'' }">City Delete</a></li>
 			<li class="nav-item"><a class="side-nav-link ${sidemenu=='dash'? 'side-active':'' }">Dashboard</a></li>
 		</ul>
 	</div>
@@ -19,7 +20,10 @@
 	$('.flex-column').find('li:eq(2)').click(function(){
 		page_move('adminCityEditor.do');
 	});
-	$('.flex-column').find('li:eq(30)').click(function(){
+	$('.flex-column').find('li:eq(3)').click(function(){
+		page_move('adminCityDelete.do');
+	});
+	$('.flex-column').find('li:eq(4)').click(function(){
 		page_move('adminCityDash.do');
 	});
 </script>

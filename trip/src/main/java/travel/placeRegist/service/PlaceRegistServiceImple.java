@@ -40,6 +40,10 @@ public class PlaceRegistServiceImple implements PlaceRegistService {
 		return dao.placeRegistKnameUpdate(map);
 	}
 	
+	public int placeRegistDelete(int ridx) {
+		return dao.placeRegistDelete(ridx);
+	}
+	
 	public String getPlaceRegistListPageNav(int cp) {
 		int total = dao.placeRegistCount();
 		return page.getPageNav(cp, total, listSize, pageSize, "adminCityList.do");

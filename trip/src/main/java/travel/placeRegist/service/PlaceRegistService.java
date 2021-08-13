@@ -13,6 +13,9 @@ public interface PlaceRegistService {
 	public PlaceRegistDTO placeRegistSelect(int ridx);
 	public int placeRegistAdd(String kname);
 	public int placeRegistKnameUpdate(String kname, int ridx);
+	public int placeRegistDelete(int ridx);
+	
 	public String getPlaceRegistListPageNav(int cp);
+	
 
 }

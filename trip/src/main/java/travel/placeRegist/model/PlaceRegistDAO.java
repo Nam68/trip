@@ -10,5 +10,6 @@ public interface PlaceRegistDAO {
 	public int placeRegistCount();
 	public int placeRegistAdd(String kname);
 	public int placeRegistKnameUpdate(Map<String, Object> map);
+	public int placeRegistDelete(int ridx);
 	
 }

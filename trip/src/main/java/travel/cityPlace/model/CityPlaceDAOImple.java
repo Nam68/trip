@@ -55,4 +55,8 @@ public class CityPlaceDAOImple implements CityPlaceDAO {
 		return sqlMap.update("cityPlaceImgUpdate", map);
 	}
 	
+	public int cityPlaceDelete(int pidx) {
+		return sqlMap.delete("cityPlaceDelete", pidx);
+	}
+	
 }

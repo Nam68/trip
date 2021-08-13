@@ -16,4 +16,6 @@ public interface CityPlaceDAO {
 	public int cityPlaceKnameUpdate(Map<String, Object> map);
 	public int cityPlaceAddressUpdate(Map<String, Object> map);
 	public int cityPlaceImgUpdate(Map<String, Object> map);
+	public int cityPlaceDelete(int pidx);
+	
 }

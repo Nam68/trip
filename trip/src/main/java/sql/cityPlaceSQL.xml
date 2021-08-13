@@ -46,6 +46,9 @@ UPDATE cityPlace
 SET img = #{img}
 WHERE pidx = #{pidx}
 </update>
+<delete id="cityPlaceDelete" parameterType="int">
+DELETE FROM cityPlace WHERE pidx = #{pidx}
+</delete>
 </mapper>
 
 

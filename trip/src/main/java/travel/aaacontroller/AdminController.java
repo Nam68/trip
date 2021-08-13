@@ -45,27 +45,33 @@ public class AdminController {
 	
 	
 	@RequestMapping(value = "/adminPage.do", method = RequestMethod.POST)
-	public String adminPage(Model model) {
-		model.addAttribute("cities", pr_service.placeRegistList());
-		model.addAttribute("menu", "home");		
-		return "admin/admin";
+	public ModelAndView adminPage() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("cities", pr_service.placeRegistList());
+		mav.addObject("menu", "home");
+		mav.setViewName("admin/admin");
+		return mav;
 	}
 	
 	@RequestMapping(value = "/adminCityList.do", method = RequestMethod.POST)
-	public String adminCityList(Model model, @RequestParam(defaultValue = "1")int cp) {
-		model.addAttribute("cities", pr_service.placeRegistList());
-		model.addAttribute("menu", "city");		
-		model.addAttribute("sidemenu", "list");	
-		model.addAttribute("pagination", pr_service.getPlaceRegistListPageNav(cp));
-		return "admin/adminCityList";
+	public ModelAndView adminCityList(@RequestParam(defaultValue = "1")int cp) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("cities", pr_service.placeRegistList());
+		mav.addObject("menu", "city");		
+		mav.addObject("sidemenu", "list");	
+		mav.addObject("pagination", pr_service.getPlaceRegistListPageNav(cp));
+		mav.setViewName("admin/adminCityList");
+		return mav;
 	}
 	
 	@RequestMapping(value = "/adminCityAdd.do", method = RequestMethod.POST)
-	public String adminCityAdd(Model model) {
-		model.addAttribute("cities", pr_service.placeRegistList());
-		model.addAttribute("menu", "city");		
-		model.addAttribute("sidemenu", "add");
-		return "admin/adminCityAdd";
+	public ModelAndView adminCityAdd() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("cities", pr_service.placeRegistList());
+		mav.addObject("menu", "city");		
+		mav.addObject("sidemenu", "add");
+		mav.setViewName("admin/adminCityAdd");
+		return mav;
 	}
 	
 	@RequestMapping(value = "/adminCityNameAdd.do", produces = "application/text;charset=UTF-8")
@@ -76,14 +82,16 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/adminCityEditor.do", method = RequestMethod.POST)
-	public String adminCityEditor(Model model, @RequestParam(defaultValue = "0")String ridx) {
-		model.addAttribute("cities", pr_service.placeRegistList());
-		model.addAttribute("menu", "city");		
-		model.addAttribute("sidemenu", "editor");
-		model.addAttribute("ridx", ridx);
-		model.addAttribute("city", pr_service.placeRegistSelect(Integer.parseInt(ridx)));
-		model.addAttribute("places", cp_service.cityPlaceList(Integer.parseInt(ridx)));
-		return "admin/adminCityEditor";
+	public ModelAndView adminCityEditor(@RequestParam(defaultValue = "0")String ridx) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("cities", pr_service.placeRegistList());
+		mav.addObject("menu", "city");		
+		mav.addObject("sidemenu", "editor");
+		mav.addObject("ridx", ridx);
+		mav.addObject("city", pr_service.placeRegistSelect(Integer.parseInt(ridx)));
+		mav.addObject("places", cp_service.cityPlaceList(Integer.parseInt(ridx)));	
+		mav.setViewName("admin/adminCityEditor");
+		return mav;
 	}
 	
 	@RequestMapping(value = "/adminCityNameChange.do", produces = "aplication/text;charset=UTF-8")
@@ -93,24 +101,45 @@ public class AdminController {
 		return msg;
 	}
 	
+	@RequestMapping(value = "/adminCityDelete.do", method = RequestMethod.POST)
+	public ModelAndView adminCityDelete() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("cities", pr_service.placeRegistList());
+		mav.addObject("menu", "city");		
+		mav.addObject("sidemenu", "delete");	
+		mav.setViewName("admin/adminCityDelete");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/adminCityDelete.do", method = RequestMethod.GET, produces = "aplication/text;charset=UTF-8")
+	@ResponseBody
+	public String adminCityDelete(int ridx) {
+		String msg = pr_service.placeRegistDelete(ridx)>0? "삭제에 성공했습니다.":"삭제에 실패했습니다.";
+		return msg;
+	}
+	
 	@RequestMapping(value = "/adminPlaceList.do", method = RequestMethod.POST)
-	public String adminPlace(Model model, @RequestParam(defaultValue = "0")int ridx, @RequestParam(defaultValue = "1")int cp) {
-		model.addAttribute("cities", pr_service.placeRegistList());
-		model.addAttribute("menu", "place");	
-		model.addAttribute("sidemenu", "list");	
-		model.addAttribute("places", cp_service.cityPlaceList(ridx));
-		model.addAttribute("pagination", cp_service.getCityPlaceListPageNav(cp, ridx));
-		model.addAttribute("ridx", ridx);
-		return "admin/adminPlaceList";
+	public ModelAndView adminPlace(@RequestParam(defaultValue = "0")int ridx, @RequestParam(defaultValue = "1")int cp) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("cities", pr_service.placeRegistList());
+		mav.addObject("menu", "place");	
+		mav.addObject("sidemenu", "list");	
+		mav.addObject("places", cp_service.cityPlaceList(ridx));
+		mav.addObject("pagination", cp_service.getCityPlaceListPageNav(cp, ridx));
+		mav.addObject("ridx", ridx);	
+		mav.setViewName("admin/adminPlaceList");
+		return mav;
 	}
 	
 	@RequestMapping(value = "/adminPlaceAdd.do", method = RequestMethod.POST)
-	public String adminPlaceAdd(Model model, @RequestParam(defaultValue = "0")int ridx) {
-		model.addAttribute("cities", pr_service.placeRegistList());
-		model.addAttribute("menu", "place");	
-		model.addAttribute("sidemenu", "add");	
-		model.addAttribute("ridx", ridx);	
-		return "admin/adminPlaceAdd";
+	public ModelAndView adminPlaceAdd(@RequestParam(defaultValue = "0")int ridx) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("cities", pr_service.placeRegistList());
+		mav.addObject("menu", "place");	
+		mav.addObject("sidemenu", "add");	
+		mav.addObject("ridx", ridx);	
+		mav.setViewName("admin/adminPlaceAdd");	
+		return mav;
 	}
 	
 	@RequestMapping(value = "/adminPlaceAdd.do", method = RequestMethod.GET, produces = "aplication/text;charset=UTF-8")
@@ -121,18 +150,48 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/adminPlaceEditor.do", method = RequestMethod.POST)
-	public String adminPlaceEditor(Model model, int ridx, int pidx) {
-		model.addAttribute("cities", pr_service.placeRegistList());
-		model.addAttribute("menu", "place");	
-		model.addAttribute("sidemenu", "edit");	
-		model.addAttribute("place", cp_service.cityPlaceSelect(pidx));	
-		return "admin/adminPlaceEditor";
+	public ModelAndView adminPlaceEditor(int ridx, int pidx) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("cities", pr_service.placeRegistList());
+		mav.addObject("menu", "place");	
+		mav.addObject("sidemenu", "edit");	
+		mav.addObject("place", cp_service.cityPlaceSelect(pidx));	
+		mav.setViewName("admin/adminPlaceEditor");
+		return mav;
 	}
 	
 	@RequestMapping(value = "/adminPlaceEditor.do", method = RequestMethod.GET, produces = "aplication/text;charset=UTF-8")
 	@ResponseBody
 	public String adminPlaceEditor(int pidx, String param) {
 		String msg = cp_service.cityPlaceUpdate(pidx, param)>0? "변경에 성공했습니다":"변경에 실패했습니다.";
+		return msg;
+	}
+	
+	@RequestMapping(value = "/adminPlaceDelete.do", method = RequestMethod.POST)
+	public ModelAndView adminPlaceDelete(@RequestParam(defaultValue = "0")int ridx) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("cities", pr_service.placeRegistList());
+		mav.addObject("places", cp_service.cityPlaceList(ridx));
+		mav.addObject("menu", "place");		
+		mav.addObject("sidemenu", "delete");	
+		mav.addObject("ridx", ridx);
+		mav.setViewName("admin/adminPlaceDelete");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/placesInSelectedCity.do", produces = "aplication/text;charset=UTF-8")
+	@ResponseBody
+	public String placesInSelectedCity(int ridx) {
+		List places = cp_service.cityPlaceList(ridx);
+		Map map = cp_service.getCityPlaceListMap(places);
+		JSONObject json = new JSONObject(map);
+		return json.toString();
+	}
+	
+	@RequestMapping(value = "/adminPlaceDelete.do", method = RequestMethod.GET, produces = "aplication/text;charset=UTF-8")
+	@ResponseBody
+	public String adminPlaceDeleteSubmit(int pidx) {
+		String msg = cp_service.cityPlaceDelete(pidx)>0? "삭제에 성공했습니다.":"삭제에 실패했습니다.";
 		return msg;
 	}
 	

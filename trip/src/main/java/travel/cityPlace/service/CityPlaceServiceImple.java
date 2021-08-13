@@ -32,11 +32,6 @@ public class CityPlaceServiceImple implements CityPlaceService {
 		return dao.cityPlaceSelect(pidx);
 	}
 	
-	public String getCityPlaceListPageNav(int cp, int ridx) {
-		int total = ridx==0? dao.cityPlaceCount():dao.cityPlaceSearchCount(ridx);
-		return page.getPageNav(cp, total, listSize, pageSize, "ridx", ridx, "adminPlaceList.do");
-	}
-	
 	public int cityPlaceInsert(int ridx, String kname, String img, double lat, double lng, String addr) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ridx", ridx);
@@ -69,6 +64,28 @@ public class CityPlaceServiceImple implements CityPlaceService {
         } else {
         	return 0;
         }
+	}
+	
+	public int cityPlaceDelete(int pidx) {
+		return dao.cityPlaceDelete(pidx);
+	}
+	
+	public Map getCityPlaceListMap(List<CityPlaceDTO> list) {
+		Map<Integer, Map> places = new HashMap<Integer, Map>(); //Map으로 변환한 DTO가 담김
+		Map<String, Object> place; //DTO를 Map으로 변환
+		for(int i = 0; i < list.size(); i++) {
+			CityPlaceDTO dto = list.get(i);
+			place = new HashMap<String, Object>();
+			place.put("pidx", dto.getPidx());
+			place.put("kname", dto.getKname());
+			places.put(i, place);
+		}
+		return places;
+	}
+	
+	public String getCityPlaceListPageNav(int cp, int ridx) {
+		int total = ridx==0? dao.cityPlaceCount():dao.cityPlaceSearchCount(ridx);
+		return page.getPageNav(cp, total, listSize, pageSize, "ridx", ridx, "adminPlaceList.do");
 	}
 
 }

@@ -34,5 +34,9 @@ public class PlaceRegistDAOImple implements PlaceRegistDAO {
 	public int placeRegistKnameUpdate(Map<String, Object> map) {
 		return sqlMap.update("placeRegistKnameUpdate", map);
 	}
+	
+	public int placeRegistDelete(int ridx) {
+		return sqlMap.delete("placeRegistDelete", ridx);
+	}
 
 }

@@ -14,6 +14,7 @@ SELECT * FROM placeRegist WHERE ridx = #{ridx}
 <select id="placeRegistCount" resultType="int">
 SELECT COUNT(*) FROM placeRegist
 </select>
+
 <insert id="placeRegistAdd" parameterType="string">
 INSERT INTO placeRegist 
 VALUES(get_seq('regist'), '', #{kname})
@@ -23,4 +24,7 @@ UPDATE placeRegist
 SET kname = #{kname}
 WHERE ridx = #{ridx}
 </update>
+<delete id="placeRegistDelete" parameterType="int">
+DELETE FROM placeRegist WHERE ridx = #{ridx}
+</delete>
 </mapper>
